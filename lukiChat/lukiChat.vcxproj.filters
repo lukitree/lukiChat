@@ -24,22 +24,39 @@
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{f0f698a4-13ec-40b6-a808-34dabe09c769}</UniqueIdentifier>
+      <UniqueIdentifier>{553b2f44-7d2b-40c9-9803-166d2c3d2882}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{65a74f83-fba8-44b3-ba4a-0b31c3caa60e}</UniqueIdentifier>
+      <UniqueIdentifier>{010bb2ba-cd1c-41b3-8708-7e59777a73c4}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Ui\lukichat.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
+    <ClCompile Include="GeneratedFiles\Debug\moc_lukichat.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_lukichat.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_lukichat.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\lukichat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <CustomBuild Include="Src\lukichat.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\lukichat.ui">
+      <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Resources\lukichat.qrc">
       <Filter>Resource Files</Filter>
@@ -49,22 +66,5 @@
     <ClInclude Include="GeneratedFiles\ui_lukichat.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_lukichat.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_lukichat.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\lukichat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_lukichat.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
