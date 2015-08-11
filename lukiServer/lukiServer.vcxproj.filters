@@ -43,9 +43,15 @@
     <ClCompile Include="Src\server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Src\server.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Src\User.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
