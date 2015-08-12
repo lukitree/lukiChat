@@ -17,10 +17,11 @@ void Server::addNewConnection()
 {
 	User *newUser = new User;
 
+	newUser->setSocket(this->nextPendingConnection());
 	QTcpSocket* socket = newUser->getSocket();
-	connect(socket, SIGNAL(disconected()), this, SLOT(onDisconnect()));
-	connect(socket, SIGNAL(disconnected()), this, SLOT(sendUserList()));
-	connect(socket, SIGNAL(readRead()), this, SLOT(receive()));
+	connect(socket, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
+	connect(socket, SIGNAL(disconnected()), this, SLOT(updateUserList()));
+	connect(socket, SIGNAL(readyRead()), this, SLOT(receive()));
 	clients.append(newUser);
 
 	QByteArray block;
