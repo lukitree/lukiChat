@@ -10,6 +10,8 @@ lukiChat::lukiChat(QWidget *parent)
 	connectDialog = new ConnectDialog(this);
 
 	serverSocket = new QTcpSocket(this);
+
+	connect(serverSocket, SIGNAL(error()), this, SLOT(errorOnConnect()));
 }
 
 lukiChat::~lukiChat()
@@ -45,4 +47,9 @@ void lukiChat::on_actionConnect_triggered()
 		serverSocket->connectToHost(address, port.toInt());
 		// connect to server
 	}
+}
+
+void lukiChat::errorOnConnect()
+{
+	new QListWidgetItem("Failed to connect to host.", ui.messageList);
 }
