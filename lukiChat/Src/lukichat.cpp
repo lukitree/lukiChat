@@ -27,7 +27,11 @@ void lukiChat::receive()
 
 void lukiChat::sendUserName()
 {
-	QDataStream in(serverSocket);
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+
+	Message msg;
+	msg.type = Message::USR;
 }
 
 void lukiChat::on_actionConnect_triggered()
