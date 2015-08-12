@@ -28,7 +28,7 @@ void Server::addNewConnection()
 	QDataStream out(&block, QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_5_5);
 
-	std::cout << "Received connection from " << socket->peerAddress().toString().toStdString() << std::endl;
+	std::cout << "Received connection from " << socket->peerAddress().toString().toStdString() << "." << std::endl;
 
 	Message message;
 	message.data = "You are connected to " + this->serverAddress().toString() + ".";
