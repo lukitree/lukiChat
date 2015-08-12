@@ -4,6 +4,7 @@
 Server::Server(QObject *parent)
 	: QTcpServer(parent)
 {
+	qRegisterMetaTypeStreamOperators<Message>("Message");
 	connect(this, SIGNAL(newConnection()), this, SLOT(addNewConnection()));
 }
 
