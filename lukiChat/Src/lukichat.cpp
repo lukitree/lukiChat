@@ -50,7 +50,7 @@ void lukiChat::on_actionConnect_triggered()
 	}
 }
 
-void lukiChat::errorOnConnect()
+void lukiChat::error()
 {
 	new QListWidgetItem("Failed to connect to host.", ui.messageList);
 }
