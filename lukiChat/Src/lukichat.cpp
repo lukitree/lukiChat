@@ -11,7 +11,7 @@ lukiChat::lukiChat(QWidget *parent)
 
 	serverSocket = new QTcpSocket(this);
 
-	connect(serverSocket, SIGNAL(error()), this, SLOT(errorOnConnect()));
+	connect(serverSocket, SIGNAL(error()), this, SLOT(error()));
 }
 
 lukiChat::~lukiChat()

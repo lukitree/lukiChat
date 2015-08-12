@@ -19,7 +19,7 @@ private slots:
 	void receive();
 	void sendUserName();
 	void on_actionConnect_triggered();
-	void errorOnConnect();
+	void error();
 
 private:
 	Ui::lukiChatClass ui;
