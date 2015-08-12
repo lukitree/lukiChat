@@ -44,6 +44,7 @@ void lukiChat::on_actionConnect_triggered()
 
 	if (connectDialog->exec() && !port.isEmpty() && !address.isEmpty() && !username.isEmpty())
 	{
+		serverSocket->abort();
 		serverSocket->connectToHost(address, port.toInt());
 		// connect to server
 	}
