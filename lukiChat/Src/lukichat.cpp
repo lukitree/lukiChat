@@ -116,6 +116,7 @@ void lukiChat::on_sendButton_clicked()
 void lukiChat::error()
 {
 	new QListWidgetItem("-> Failed to connect to host.", ui.messageList);
+	ui.messageList->scrollToBottom();
 }
 
 void lukiChat::printMessage(QString message)
