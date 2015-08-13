@@ -32,3 +32,11 @@ QTcpSocket* User::getSocket()
 {
 	return socket;
 }
+
+QString User::getFullID()
+{
+	QString address = socket->peerAddress().toString();
+	address = address.split(":", QString::KeepEmptyParts).at(3);
+
+	return username + "@" + address;
+}

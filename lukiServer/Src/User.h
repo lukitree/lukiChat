@@ -3,6 +3,7 @@
 
 #include <QTcpSocket>
 #include <QString>
+#include <QHostAddress>
 #include <memory>
 
 class User
@@ -16,6 +17,8 @@ public:
 
 	void setSocket(QTcpSocket* socket);
 	QTcpSocket* getSocket();
+
+	QString getFullID();
 
 private:
 	QString username;
