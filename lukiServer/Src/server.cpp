@@ -30,7 +30,7 @@ void Server::addNewConnection()
 
 	Message message;
 	message.type = Message::MSG;
-	message.data = "You have connected to " + socket->localAddress().toString() + ".";
+	message.data = "-> You have connected to " + socket->localAddress().toString() + ".";
 	out << message;
 	socket->write(block);
 }
@@ -47,7 +47,7 @@ void Server::onDisconnect()
 		}
 	}
 
-	std::cout << "User \"" << disconnectedUser->getFullID().toStdString() << "\" disconnected." << std::endl;
+	std::cout << "-> User \"" << disconnectedUser->getFullID().toStdString() << "\" disconnected." << std::endl;
 }
 
 void Server::updateUserList()
@@ -70,7 +70,7 @@ void Server::receive()
 				if (i->getSocket() == receiveSocket)
 				{
 					i->setUserName(message.data);
-					std::cout << "Received connection from \"" << i->getFullID().toStdString() << "\"." << std::endl;
+					std::cout << "-> Received connection from \"" << i->getFullID().toStdString() << "\"." << std::endl;
 				}
 			}
 			break;

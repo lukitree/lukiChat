@@ -30,7 +30,7 @@ void lukiChat::onConnect()
 
 void lukiChat::onDisconnect()
 {
-	printMessage("You have been disconnected.");
+	printMessage("-> You have been disconnected.");
 }
 
 void lukiChat::receive()
@@ -115,7 +115,7 @@ void lukiChat::on_sendButton_clicked()
 
 void lukiChat::error()
 {
-	new QListWidgetItem("Failed to connect to host.", ui.messageList);
+	new QListWidgetItem("-> Failed to connect to host.", ui.messageList);
 }
 
 void lukiChat::printMessage(QString message)
