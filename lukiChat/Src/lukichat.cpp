@@ -12,6 +12,11 @@ lukiChat::lukiChat(QWidget *parent)
 	serverSocket = new QTcpSocket(this);
 
 	connect(serverSocket, SIGNAL(error()), this, SLOT(error()));
+	connect(serverSocket, SIGNAL(readyRead()), this, SLOT(receive()));
+	connect(ui.actionbarConnect, SIGNAL(triggered()), this, SLOT(on_actionReconnect_triggered()));
+	connect(ui.actionbarDisconnect, SIGNAL(triggered()), this, SLOT(on_actionDisconnect_triggered()));
+	connect(serverSocket, SIGNAL(connected()), this, SLOT(sendUserName()));
+	connect(serverSocket, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
 }
 
 lukiChat::~lukiChat()
@@ -23,17 +28,39 @@ void lukiChat::onConnect()
 {
 }
 
+void lukiChat::onDisconnect()
+{
+	printMessage("You have been disconnected.");
+}
+
 void lukiChat::receive()
 {
+	QDataStream in(serverSocket);
+	in.setVersion(QDataStream::Qt_5_5);
+
+	Message message;
+	in >> message;
+
+	switch (message.type)
+	{
+		case Message::MSG:
+			printMessage(message.data);
+			break;
+	}
 }
 
 void lukiChat::sendUserName()
 {
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_5_5);
 
-	Message msg;
-	msg.type = Message::USR;
+	Message message;
+	message.type = Message::USR;
+	message.data = connectDialog->usernameEdit->text();
+
+	out << message;
+	serverSocket->write(block);
 }
 
 void lukiChat::on_actionConnect_triggered()
@@ -50,7 +77,31 @@ void lukiChat::on_actionConnect_triggered()
 	}
 }
 
+void lukiChat::on_actionReconnect_triggered()
+{
+	QString port = connectDialog->portEdit->text();
+	QString address = connectDialog->serverEdit->text();
+	QString username = connectDialog->usernameEdit->text();
+	
+	if (!port.isEmpty() && !address.isEmpty() && !username.isEmpty())
+	{
+		serverSocket->abort();
+		serverSocket->connectToHost(address, port.toInt());
+	}
+}
+
+void lukiChat::on_actionDisconnect_triggered()
+{
+	serverSocket->disconnectFromHost();
+}
+
 void lukiChat::error()
 {
 	new QListWidgetItem("Failed to connect to host.", ui.messageList);
+}
+
+void lukiChat::printMessage(QString message)
+{
+	new QListWidgetItem(message, ui.messageList);
+	ui.messageList->scrollToBottom();
 }

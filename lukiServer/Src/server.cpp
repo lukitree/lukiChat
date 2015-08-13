@@ -28,16 +28,26 @@ void Server::addNewConnection()
 	QDataStream out(&block, QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_5_5);
 
-	std::cout << "Received connection from " << socket->peerAddress().toString().toStdString() << "." << std::endl;
-
 	Message message;
-	message.data = "You are connected to " + this->serverAddress().toString() + ".";
+	message.type = Message::MSG;
+	message.data = "You have connected to " + socket->localAddress().toString() + ".";
 	out << message;
 	socket->write(block);
 }
 
 void Server::onDisconnect()
 {
+	QTcpSocket* disconnectedSocket = qobject_cast<QTcpSocket*>(sender());
+	User* disconnectedUser;
+	for (auto i : clients)
+	{
+		if (i->getSocket() == disconnectedSocket)
+		{
+			disconnectedUser = i;
+		}
+	}
+
+	std::cout << "User \"" << disconnectedUser->getFullID().toStdString() << "\" disconnected." << std::endl;
 }
 
 void Server::updateUserList()
@@ -46,6 +56,24 @@ void Server::updateUserList()
 
 void Server::receive()
 {
+	QTcpSocket* receiveSocket = qobject_cast<QTcpSocket*>(sender());
+	QDataStream in(receiveSocket);
+
+	Message message;
+	in >> message;
+
+	switch (message.type)
+	{
+		case Message::USR:
+			for (auto i : clients)
+			{
+				if (i->getSocket() == receiveSocket)
+				{
+					i->setUserName(message.data);
+					std::cout << "Received connection from \"" << i->getFullID().toStdString() << "\"." << std::endl;
+				}
+			}
+	}
 }
 
 void Server::sendToAll()

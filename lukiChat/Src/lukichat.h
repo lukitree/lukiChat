@@ -16,9 +16,12 @@ public:
 
 private slots:
 	void onConnect();
+	void onDisconnect();
 	void receive();
 	void sendUserName();
 	void on_actionConnect_triggered();
+	void on_actionReconnect_triggered();
+	void on_actionDisconnect_triggered();
 	void error();
 
 private:
@@ -26,6 +29,8 @@ private:
 	QTcpSocket* serverSocket;
 
 	ConnectDialog* connectDialog;
+
+	void printMessage(QString message);
 };
 
 #endif // LUKICHAT_H
