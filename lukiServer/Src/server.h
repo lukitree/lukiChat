@@ -25,7 +25,7 @@ private slots:
 private:
 	QList<User*> clients;
 
-	void sendToAll();
+	void sendToAll(QString message, User* user);
 	void sendToUser(User& user);
 };
 

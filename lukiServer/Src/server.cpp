@@ -73,11 +73,35 @@ void Server::receive()
 					std::cout << "Received connection from \"" << i->getFullID().toStdString() << "\"." << std::endl;
 				}
 			}
+			break;
+		case Message::MSG:
+			for (auto i : clients)
+				if (i->getSocket() == receiveSocket)
+					sendToAll(message.data, i);
+			break;
 	}
 }
 
-void Server::sendToAll()
+void Server::sendToAll(QString message, User* user)
 {
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_5_5);
+
+	message = user->getUserName() + ": " + message;
+
+	std::cout << message.toStdString() << std::endl;
+
+	Message packet;
+	packet.type = Message::MSG;
+	packet.data = message;
+
+	out << packet;
+
+	for (auto i : clients)
+	{
+		i->getSocket()->write(block);
+	}
 }
 
 void Server::sendToUser(User& user)

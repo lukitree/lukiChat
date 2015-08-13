@@ -95,6 +95,24 @@ void lukiChat::on_actionDisconnect_triggered()
 	serverSocket->disconnectFromHost();
 }
 
+void lukiChat::on_sendButton_clicked()
+{
+	QString text = ui.messageEdit->text();
+	ui.messageEdit->clear();
+
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_5_5);
+
+	Message message;
+	message.type = Message::MSG;
+	message.data = text;
+
+	out << message;
+
+	serverSocket->write(block);
+}
+
 void lukiChat::error()
 {
 	new QListWidgetItem("Failed to connect to host.", ui.messageList);
