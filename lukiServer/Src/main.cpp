@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	Server *server = new Server(nullptr);
 	if (!server->listen(QHostAddress::Any, 42069))
 	{
-		std::cerr << "Failed to start server!";
+		std::cerr << "Failed to start server!" << std::endl;
 		return 1;
 	}
 
