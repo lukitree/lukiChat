@@ -6,6 +6,7 @@
 #include <memory>
 #include <QIODevice>
 #include <QDataStream>
+#include <QTimer>
 #include "user.h"
 
 class Server : public QTcpServer
@@ -19,8 +20,8 @@ public:
 private slots:
 	void addNewConnection();
 	void onDisconnect();
-	void updateUserList();
 	void receive();
+	void sendUserList();
 
 private:
 	QList<User*> clients;

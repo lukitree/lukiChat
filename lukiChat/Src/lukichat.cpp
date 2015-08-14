@@ -11,7 +11,7 @@ lukiChat::lukiChat(QWidget *parent)
 
 	serverSocket = new QTcpSocket(this);
 
-	connect(serverSocket, SIGNAL(error()), this, SLOT(error()));
+	connect(serverSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error()));
 	connect(serverSocket, SIGNAL(readyRead()), this, SLOT(receive()));
 	connect(ui.actionbarConnect, SIGNAL(triggered()), this, SLOT(on_actionReconnect_triggered()));
 	connect(ui.actionbarDisconnect, SIGNAL(triggered()), this, SLOT(on_actionDisconnect_triggered()));
@@ -31,6 +31,7 @@ void lukiChat::onConnect()
 void lukiChat::onDisconnect()
 {
 	printMessage("-> You have been disconnected.");
+	ui.userList->clear();
 }
 
 void lukiChat::receive()
@@ -45,6 +46,9 @@ void lukiChat::receive()
 	{
 		case Message::MSG:
 			printMessage(message.data);
+			break;
+		case Message::USRLST:
+			processUserList(message.data);
 			break;
 	}
 }
@@ -111,6 +115,18 @@ void lukiChat::on_sendButton_clicked()
 	out << message;
 
 	serverSocket->write(block);
+}
+
+void lukiChat::processUserList(QString users)
+{
+	ui.userList->clear();
+	QStringList userlist = users.split(" ", QString::SkipEmptyParts);
+
+	// populate userlist in ui
+	for (auto i : userlist)
+	{
+		new QListWidgetItem(i, ui.userList);
+	}
 }
 
 void lukiChat::error()

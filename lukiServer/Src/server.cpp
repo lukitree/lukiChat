@@ -6,6 +6,11 @@ Server::Server(QObject *parent)
 	: QTcpServer(parent)
 {
 	qRegisterMetaTypeStreamOperators<Message>("Message");
+
+	QTimer *userListTimer = new QTimer(this);
+	connect(userListTimer, SIGNAL(timeout()), this, SLOT(sendUserList()));
+	userListTimer->start(60000);
+
 	connect(this, SIGNAL(newConnection()), this, SLOT(addNewConnection()));
 }
 
@@ -20,7 +25,7 @@ void Server::addNewConnection()
 	newUser->setSocket(this->nextPendingConnection());
 	QTcpSocket* socket = newUser->getSocket();
 	connect(socket, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
-	connect(socket, SIGNAL(disconnected()), this, SLOT(updateUserList()));
+	connect(socket, SIGNAL(disconnected()), this, SLOT(sendUserList()));
 	connect(socket, SIGNAL(readyRead()), this, SLOT(receive()));
 	clients.append(newUser);
 
@@ -33,6 +38,8 @@ void Server::addNewConnection()
 	message.data = "-> You have connected to " + socket->localAddress().toString() + ".";
 	out << message;
 	socket->write(block);
+
+	QTimer::singleShot(50, this, SLOT(sendUserList()));
 }
 
 void Server::onDisconnect()
@@ -44,14 +51,11 @@ void Server::onDisconnect()
 		if (i->getSocket() == disconnectedSocket)
 		{
 			disconnectedUser = i;
+			i->setUserName("");
 		}
 	}
 
 	std::cout << "-> User \"" << disconnectedUser->getFullID().toStdString() << "\" disconnected." << std::endl;
-}
-
-void Server::updateUserList()
-{
 }
 
 void Server::receive()
@@ -79,6 +83,32 @@ void Server::receive()
 				if (i->getSocket() == receiveSocket)
 					sendToAll(message.data, i);
 			break;
+	}
+}
+
+void Server::sendUserList()
+{
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_5_5);
+
+	Message userlist;
+	userlist.type = Message::USRLST;
+	userlist.data.clear();
+
+	for (auto i : clients)
+	{
+		if (i->getUserName() == "")
+			clients.removeAll(i);
+		else
+			userlist.data += i->getUserName() + " ";
+	}
+
+	out << userlist;
+
+	for (auto i : clients)
+	{
+		i->getSocket()->write(block);
 	}
 }
 

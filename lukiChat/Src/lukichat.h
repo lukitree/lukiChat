@@ -32,6 +32,7 @@ private:
 	ConnectDialog* connectDialog;
 
 	void printMessage(QString message);
+	void processUserList(QString users);
 };
 
 #endif // LUKICHAT_H
