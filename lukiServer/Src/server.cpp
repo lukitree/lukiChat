@@ -25,7 +25,6 @@ void Server::addNewConnection()
 	newUser->setSocket(this->nextPendingConnection());
 	QTcpSocket* socket = newUser->getSocket();
 	connect(socket, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
-	connect(socket, SIGNAL(disconnected()), this, SLOT(sendUserList()));
 	connect(socket, SIGNAL(readyRead()), this, SLOT(receive()));
 	clients.append(newUser);
 
@@ -51,11 +50,14 @@ void Server::onDisconnect()
 		if (i->getSocket() == disconnectedSocket)
 		{
 			disconnectedUser = i;
-			i->setUserName("");
 		}
 	}
 
-	std::cout << "-> User \"" << disconnectedUser->getFullID().toStdString() << "\" disconnected." << std::endl;
+	std::cout << "<- User \"" << disconnectedUser->getFullID().toStdString() << "\" disconnected." << std::endl;
+
+	clients.removeAll(disconnectedUser);
+
+	QTimer::singleShot(0, this, SLOT(sendUserList()));
 }
 
 void Server::receive()
@@ -69,14 +71,7 @@ void Server::receive()
 	switch (message.type)
 	{
 		case Message::USR:
-			for (auto i : clients)
-			{
-				if (i->getSocket() == receiveSocket)
-				{
-					i->setUserName(message.data);
-					std::cout << "-> Received connection from \"" << i->getFullID().toStdString() << "\"." << std::endl;
-				}
-			}
+			setUsername(receiveSocket, message.data);
 			break;
 		case Message::MSG:
 			for (auto i : clients)
@@ -98,10 +93,7 @@ void Server::sendUserList()
 
 	for (auto i : clients)
 	{
-		if (i->getUserName() == "")
-			clients.removeAll(i);
-		else
-			userlist.data += i->getUserName() + " ";
+		userlist.data += i->getUserName() + " ";
 	}
 
 	out << userlist;
@@ -112,7 +104,7 @@ void Server::sendUserList()
 	}
 }
 
-void Server::sendToAll(QString message, User* user)
+void Server::sendToAll(QString message, User* user) const
 {
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
@@ -134,6 +126,40 @@ void Server::sendToAll(QString message, User* user)
 	}
 }
 
-void Server::sendToUser(User& user)
+void Server::sendToUser(User& user) const
 {
+}
+
+void Server::setUsername(QTcpSocket* socket, QString username)
+{
+	bool usernameTaken = true;
+	int usernameNumberAppend = 1;
+	const QString originalUsername = username;
+	while (usernameTaken)
+	{
+		usernameTaken = false;
+		for (auto i : clients)
+		{
+			if (i->getUserName() == username)
+			{
+				usernameTaken = true;
+			}
+		}
+
+		if (usernameTaken)
+		{
+			username = originalUsername + QString::number(usernameNumberAppend);
+			++usernameNumberAppend;
+		}
+	}
+
+	for (auto i : clients)
+	{
+		if (i->getSocket() == socket)
+		{
+			i->setUserName(username);
+			std::cout << "-> Received connection from \"" << i->getFullID().toStdString() << "\"." << std::endl;
+		}
+	}
+	
 }

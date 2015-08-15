@@ -26,8 +26,9 @@ private slots:
 private:
 	QList<User*> clients;
 
-	void sendToAll(QString message, User* user);
-	void sendToUser(User& user);
+	void sendToAll(QString message, User* user) const;
+	void sendToUser(User& user) const;
+	void setUsername(QTcpSocket* socket, QString username);
 };
 
 #endif // SERVER_H
