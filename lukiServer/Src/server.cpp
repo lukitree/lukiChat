@@ -33,8 +33,9 @@ void Server::addNewConnection()
 	out.setVersion(QDataStream::Qt_5_5);
 
 	Message message;
-	message.type = Message::MSG;
+	message.type = Message::SVRMSG;
 	message.data = "-> You have connected to " + socket->localAddress().toString() + ".";
+	message.extra = "Dark Green";
 	out << message;
 	socket->write(block);
 

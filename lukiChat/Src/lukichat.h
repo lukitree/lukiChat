@@ -34,6 +34,7 @@ private:
 
 	void printMessage(QString message);
 	void printOwnedMessage(QString message);
+	void printServerMessage(QString message, QString color);
 	void processUserList(QString users);
 	void setupAssignedUsername(QString username);
 };

@@ -30,7 +30,7 @@ void lukiChat::onConnect()
 
 void lukiChat::onDisconnect()
 {
-	printMessage("-> You have been disconnected.");
+	printServerMessage("-> You have been disconnected.", "Red");
 	ui.userList->clear();
 }
 
@@ -49,6 +49,9 @@ void lukiChat::receive()
 			break;
 		case Message::MSGOWNR:
 			printOwnedMessage(message.data);
+			break;
+		case Message::SVRMSG:
+			printServerMessage(message.data, message.extra);
 			break;
 		case Message::USRLST:
 			processUserList(message.data);
@@ -151,6 +154,29 @@ void lukiChat::printMessage(QString message)
 	ui.messageList->scrollToBottom();
 }
 
+void lukiChat::printServerMessage(QString message, QString color)
+{
+	Qt::GlobalColor setColor = Qt::blue;
+	if (color == "Green")
+		setColor = Qt::green;
+	else if (color == "Dark Green")
+		setColor = Qt::darkGreen;
+	else if (color == "Red")
+		setColor = Qt::red;
+	else if (color == "Dark Red")
+		setColor = Qt::darkRed;
+	else if (color == "Blue")
+		setColor = Qt::blue;
+	else if (color == "Dark Blue")
+		setColor = Qt::darkBlue;
+
+	QListWidgetItem* item = new QListWidgetItem(message);
+	item->setForeground(setColor);
+
+	ui.messageList->addItem(item);
+	ui.messageList->scrollToBottom();
+}
+
 void lukiChat::printOwnedMessage(QString message)
 {
 	QListWidgetItem* item = new QListWidgetItem(message);
@@ -166,7 +192,7 @@ void lukiChat::setupAssignedUsername(QString username)
 
 	QString notification = "<> You have been assigned the username: \"" + assignedUsername + "\" by the server.";
 	QListWidgetItem* item = new QListWidgetItem(notification);
-	item->setForeground(Qt::green);
+	item->setForeground(Qt::blue);
 
 	ui.messageList->addItem(item);
 }

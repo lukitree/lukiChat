@@ -11,6 +11,7 @@ public:
 	{
 		MSG,
 		MSGOWNR,
+		SVRMSG,
 		USR,
 		CMD,
 		KICK,
