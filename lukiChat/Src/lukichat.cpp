@@ -154,7 +154,10 @@ void lukiChat::processUserList(QString users)
 	// populate userlist in ui
 	for (auto i : userlist)
 	{
-		new QListWidgetItem(i, ui.userList);
+		QListWidgetItem* item = new QListWidgetItem(i, ui.userList);
+		if (i == assignedUsername)
+			item->setBackground(Qt::lightGray);
+		ui.userList->addItem(item);
 	}
 }
 
