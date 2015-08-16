@@ -30,10 +30,12 @@ private:
 	QTcpSocket* serverSocket;
 
 	ConnectDialog* connectDialog;
+	QString assignedUsername;
 
 	void printMessage(QString message);
 	void printOwnedMessage(QString message);
 	void processUserList(QString users);
+	void setupAssignedUsername(QString username);
 };
 
 #endif // LUKICHAT_H

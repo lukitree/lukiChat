@@ -182,4 +182,21 @@ void Server::setUsername(QTcpSocket* socket, QString username)
 		}
 	}
 	
+	//QTimer::singleShot(0, this, SLOT(assignUsernameToClient(socket, username)));
+	assignUsernameToClient(socket, username);
+}
+
+void Server::assignUsernameToClient(QTcpSocket* socket, QString username)
+{
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_5_5);
+
+	Message packet;
+	packet.type = Message::USR;
+	packet.data = username;
+
+	out << packet;
+
+	socket->write(block);
 }

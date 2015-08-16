@@ -53,6 +53,9 @@ void lukiChat::receive()
 		case Message::USRLST:
 			processUserList(message.data);
 			break;
+		case Message::USR:
+			setupAssignedUsername(message.data);
+			break;
 	}
 }
 
@@ -151,4 +154,15 @@ void lukiChat::printOwnedMessage(QString message)
 	item->setForeground(Qt::darkGray);
 	ui.messageList->addItem(item);
 	ui.messageList->scrollToBottom();
+}
+
+void lukiChat::setupAssignedUsername(QString username)
+{
+	assignedUsername = username;
+
+	QString notification = "<> You have been assigned the username: \"" + assignedUsername + "\" by the server.";
+	QListWidgetItem* item = new QListWidgetItem(notification);
+	item->setForeground(Qt::green);
+
+	ui.messageList->addItem(item);
 }

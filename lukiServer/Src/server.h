@@ -22,6 +22,7 @@ private slots:
 	void onDisconnect();
 	void receive();
 	void sendUserList();
+	void assignUsernameToClient(QTcpSocket* socket, QString username);
 
 private:
 	QList<User*> clients;
