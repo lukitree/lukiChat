@@ -65,9 +65,13 @@ void lukiChat::sendUserName()
 	QDataStream out(&block, QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_5_5);
 
+	QString username = connectDialog->usernameEdit->text();
+
+	username.replace(" ", "_");
+
 	Message message;
 	message.type = Message::USR;
-	message.data = connectDialog->usernameEdit->text();
+	message.data = username;
 
 	out << message;
 	serverSocket->write(block);
