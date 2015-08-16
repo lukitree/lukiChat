@@ -1,5 +1,4 @@
 #include "lukichat.h"
-#include "message.h"
 
 lukiChat::lukiChat(QWidget *parent)
 	: QMainWindow(parent)
@@ -59,6 +58,9 @@ void lukiChat::receive()
 		case Message::USR:
 			setupAssignedUsername(message.data);
 			break;
+		case Message::PM:
+			printPM(message);
+			break;
 	}
 }
 
@@ -117,6 +119,8 @@ void lukiChat::on_sendButton_clicked()
 	QString text = ui.messageEdit->text();
 	ui.messageEdit->clear();
 
+	QStringList textTokens = text.split(" ", QString::KeepEmptyParts);
+
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_5_5);
@@ -124,6 +128,18 @@ void lukiChat::on_sendButton_clicked()
 	Message message;
 	message.type = Message::MSG;
 	message.data = text;
+
+	if (textTokens.front() == "/pm")
+	{
+		textTokens.pop_front();
+		message.extra = textTokens.front();
+		textTokens.pop_front();
+		message.type = Message::PM;
+		message.data.clear();
+
+		for (auto i : textTokens)
+			message.data += i + " ";
+	}
 
 	out << message;
 
@@ -195,4 +211,28 @@ void lukiChat::setupAssignedUsername(QString username)
 	item->setForeground(Qt::blue);
 
 	ui.messageList->addItem(item);
+	ui.messageList->scrollToBottom();
+}
+
+void lukiChat::printPM(Message message)
+{
+	QStringList users = message.extra.split(" ", QString::SkipEmptyParts);
+
+	QString toUser = users.front();
+	QString fromUser = users.back();
+
+	QListWidgetItem* item;
+
+	if (fromUser == assignedUsername)
+	{
+		item = new QListWidgetItem("To " + toUser + ": " + message.data);
+	}
+	else
+	{
+		item = new QListWidgetItem("From " + fromUser + ": " + message.data);
+	}
+
+	item->setForeground(Qt::magenta);
+	ui.messageList->addItem(item);
+	ui.messageList->scrollToBottom();
 }

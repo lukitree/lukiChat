@@ -1,5 +1,4 @@
 #include "server.h"
-#include "message.h"
 #include <iostream>
 
 Server::Server(QObject *parent)
@@ -79,6 +78,8 @@ void Server::receive()
 				if (i->getSocket() == receiveSocket)
 					sendToAll(message.data, i);
 			break;
+		case Message::PM:
+			sendPM(message, receiveSocket);
 	}
 }
 
@@ -200,4 +201,65 @@ void Server::assignUsernameToClient(QTcpSocket* socket, QString username)
 	out << packet;
 
 	socket->write(block);
+}
+
+void Server::sendPM(Message packet, QTcpSocket* fromSocket) const
+{
+	QString message = packet.data;
+	User* toUser = nullptr;
+	User* fromUser = nullptr;
+
+	// get pointer for fromUser
+	for (auto i : clients)
+	{
+		if (i->getSocket() == fromSocket)
+			fromUser = i;
+	}
+
+	// get pointer for toUser
+	for (auto i : clients)
+	{
+		if (i->getUserName() == packet.extra)
+			toUser = i;
+	}
+
+	if (toUser == nullptr)
+	{
+		QString errorMessage = "[!] Could not PM \"" + packet.extra + "\", user not found.";
+		sendServerMessageToUser(errorMessage, fromUser, "Red");
+	}
+	else
+	{
+		QByteArray block;
+		QDataStream out(&block, QIODevice::WriteOnly);
+		out.setVersion(QDataStream::Qt_5_5);
+
+		Message pmPacket;
+		pmPacket.type = Message::PM;
+		pmPacket.data = packet.data;
+		pmPacket.extra = toUser->getUserName() + " " + fromUser->getUserName();
+
+		out << pmPacket;
+
+		toUser->getSocket()->write(block);
+		fromUser->getSocket()->write(block);
+
+		std::cout << "PM " << fromUser->getUserName().toStdString() << " -> " << toUser->getUserName().toStdString() << ": " << packet.data.toStdString() << std::endl;
+	}
+}
+
+void Server::sendServerMessageToUser(QString message, User* user, QString color) const
+{
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_5_5);
+
+	Message packet;
+	packet.type = Message::SVRMSG;
+	packet.data = message;
+	packet.extra = color;
+
+	out << packet;
+
+	user->getSocket()->write(block);
 }

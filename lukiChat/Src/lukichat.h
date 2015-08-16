@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include "ui_lukichat.h"
 #include "connectdialog.h"
+#include "message.h"
 
 class lukiChat : public QMainWindow
 {
@@ -37,6 +38,8 @@ private:
 	void printServerMessage(QString message, QString color);
 	void processUserList(QString users);
 	void setupAssignedUsername(QString username);
+	void sendPM(QString message);
+	void printPM(Message message);
 };
 
 #endif // LUKICHAT_H
