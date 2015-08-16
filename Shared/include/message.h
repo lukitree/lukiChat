@@ -15,16 +15,19 @@ public:
 		CMD,
 		KICK,
 		USRLST,
+		PM,
 	};
 
 	MessageType type;
 	QString data;
+	QString extra;
 };
 
 inline QDataStream& operator<<(QDataStream &out, const Message& t)
 {
 	out << static_cast<quint16>(t.type);
 	out << t.data;
+	out << t.extra;
 
 	return out;
 }
@@ -35,6 +38,7 @@ inline QDataStream& operator>>(QDataStream &in, Message& t)
 	in >> i;
 	t.type = static_cast<Message::MessageType>(i);
 	in >> t.data;
+	in >> t.extra;
 	
 	return in;
 }
