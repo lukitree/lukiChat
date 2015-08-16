@@ -114,6 +114,7 @@ void Server::sendToAll(QString message, User* user) const
 
 	std::cout << message.toStdString() << std::endl;
 
+	// send to all clients except message owner
 	Message packet;
 	packet.type = Message::MSG;
 	packet.data = message;
@@ -122,8 +123,27 @@ void Server::sendToAll(QString message, User* user) const
 
 	for (auto i : clients)
 	{
-		i->getSocket()->write(block);
+		if (i->getUserName() != user->getUserName())
+			i->getSocket()->write(block);
 	}
+
+	// send messge to owner
+	sendToOwner(message, user);
+}
+
+void Server::sendToOwner(QString message, User* user) const
+{
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_5_5);
+
+	Message packet;
+	packet.type = Message::MSGOWNR;
+	packet.data = message;
+
+	out << packet;
+
+	user->getSocket()->write(block);
 }
 
 void Server::sendToUser(User& user) const

@@ -27,6 +27,7 @@ private:
 	QList<User*> clients;
 
 	void sendToAll(QString message, User* user) const;
+	void sendToOwner(QString message, User* user) const;
 	void sendToUser(User& user) const;
 	void setUsername(QTcpSocket* socket, QString username);
 };

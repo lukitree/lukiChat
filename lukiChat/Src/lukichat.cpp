@@ -47,6 +47,9 @@ void lukiChat::receive()
 		case Message::MSG:
 			printMessage(message.data);
 			break;
+		case Message::MSGOWNR:
+			printOwnedMessage(message.data);
+			break;
 		case Message::USRLST:
 			processUserList(message.data);
 			break;
@@ -138,5 +141,14 @@ void lukiChat::error()
 void lukiChat::printMessage(QString message)
 {
 	new QListWidgetItem(message, ui.messageList);
+	ui.messageList->scrollToBottom();
+}
+
+void lukiChat::printOwnedMessage(QString message)
+{
+	QListWidgetItem* item = new QListWidgetItem(message);
+
+	item->setForeground(Qt::darkGray);
+	ui.messageList->addItem(item);
 	ui.messageList->scrollToBottom();
 }

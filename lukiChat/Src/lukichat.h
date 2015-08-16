@@ -32,6 +32,7 @@ private:
 	ConnectDialog* connectDialog;
 
 	void printMessage(QString message);
+	void printOwnedMessage(QString message);
 	void processUserList(QString users);
 };
 
