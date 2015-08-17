@@ -29,7 +29,7 @@ void Server::addNewConnection()
 
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
+	out.setVersion(QDataStream::Qt_5_0);
 
 	Message message;
 	message.type = Message::SVRMSG;
@@ -87,7 +87,7 @@ void Server::sendUserList()
 {
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
+	out.setVersion(QDataStream::Qt_5_0);
 
 	Message userlist;
 	userlist.type = Message::USRLST;
@@ -110,7 +110,7 @@ void Server::sendToAll(QString message, User* user) const
 {
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
+	out.setVersion(QDataStream::Qt_5_0);
 
 	message = user->getUserName() + ": " + message;
 
@@ -137,7 +137,7 @@ void Server::sendToOwner(QString message, User* user) const
 {
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
+	out.setVersion(QDataStream::Qt_5_0);
 
 	Message packet;
 	packet.type = Message::MSGOWNR;
@@ -192,7 +192,7 @@ void Server::assignUsernameToClient(QTcpSocket* socket, QString username)
 {
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
+	out.setVersion(QDataStream::Qt_5_0);
 
 	Message packet;
 	packet.type = Message::USR;
@@ -232,7 +232,7 @@ void Server::sendPM(Message packet, QTcpSocket* fromSocket) const
 	{
 		QByteArray block;
 		QDataStream out(&block, QIODevice::WriteOnly);
-		out.setVersion(QDataStream::Qt_5_5);
+		out.setVersion(QDataStream::Qt_5_0);
 
 		Message pmPacket;
 		pmPacket.type = Message::PM;
@@ -252,7 +252,7 @@ void Server::sendServerMessageToUser(QString message, User* user, QString color)
 {
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
+	out.setVersion(QDataStream::Qt_5_0);
 
 	Message packet;
 	packet.type = Message::SVRMSG;

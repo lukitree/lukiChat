@@ -36,7 +36,7 @@ void lukiChat::onDisconnect()
 void lukiChat::receive()
 {
 	QDataStream in(serverSocket);
-	in.setVersion(QDataStream::Qt_5_5);
+	in.setVersion(QDataStream::Qt_5_0);
 
 	Message message;
 	in >> message;
@@ -68,7 +68,7 @@ void lukiChat::sendUserName()
 {
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
+	out.setVersion(QDataStream::Qt_5_0);
 
 	QString username = connectDialog->usernameEdit->text();
 
@@ -126,7 +126,7 @@ void lukiChat::on_sendButton_clicked()
 
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_5_5);
+	out.setVersion(QDataStream::Qt_5_0);
 
 	Message message;
 	message.type = Message::MSG;
