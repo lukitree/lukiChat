@@ -50,7 +50,7 @@
     <ClCompile Include="Src\lukichat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="connectdialog.cpp">
+    <ClCompile Include="src\connectdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_connectdialog.cpp">
@@ -70,10 +70,10 @@
     <CustomBuild Include="Resources\lukichat.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="connectdialog.h">
+    <CustomBuild Include="src\connectdialog.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="connectdialog.ui">
+    <CustomBuild Include="ui\connectdialog.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
   </ItemGroup>
