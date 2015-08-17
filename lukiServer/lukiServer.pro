@@ -7,7 +7,7 @@ TARGET = lukiServer
 DESTDIR = ../Win32/Debug
 QT += core network
 CONFIG += debug console
-DEFINES += WIN64 QT_DLL QT_NETWORK_LIB
+DEFINES += QT_DLL QT_NETWORK_LIB
 INCLUDEPATH += . \
     ./GeneratedFiles/Debug \
     ./../Shared/include

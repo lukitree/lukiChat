@@ -7,7 +7,7 @@ TARGET = Shared
 DESTDIR = ../Win32/Debug
 QT += core
 CONFIG += staticlib debug
-DEFINES += WIN64 QT_DLL SHARED_LIB
+DEFINES += QT_DLL SHARED_LIB
 INCLUDEPATH += ./GeneratedFiles \
     . \
     ./GeneratedFiles/Debug \

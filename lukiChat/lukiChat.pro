@@ -7,7 +7,7 @@ TARGET = lukiChat
 DESTDIR = ../Win32/Debug
 QT += core network widgets gui
 CONFIG += debug
-DEFINES += WIN64 QT_DLL QT_NETWORK_LIB QT_WIDGETS_LIB
+DEFINES += QT_DLL QT_NETWORK_LIB QT_WIDGETS_LIB
 INCLUDEPATH += ./GeneratedFiles \
     . \
     ./GeneratedFiles/Debug \
