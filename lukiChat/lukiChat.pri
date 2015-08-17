@@ -8,10 +8,10 @@ message("You are running qmake on a generated .pro file. This may not work!")
 
 
 HEADERS += ./Src/lukichat.h \
-    ./connectdialog.h
-SOURCES += ./connectdialog.cpp \
+    ./src/connectdialog.h
+SOURCES += ./src/connectdialog.cpp \
     ./Src/lukichat.cpp \
     ./Src/main.cpp
 FORMS += ./Ui/lukichat.ui \
-    ./connectdialog.ui
+    ./ui/connectdialog.ui
 RESOURCES += Resources/lukichat.qrc

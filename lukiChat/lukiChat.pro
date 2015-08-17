@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = lukiChat
 DESTDIR = ../Win32/Debug
 QT += core network widgets gui
-CONFIG += debug
+CONFIG += debug c++11
 DEFINES += WIN64 QT_DLL QT_NETWORK_LIB QT_WIDGETS_LIB
 INCLUDEPATH += ./GeneratedFiles \
     . \
