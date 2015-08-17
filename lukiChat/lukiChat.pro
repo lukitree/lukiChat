@@ -12,6 +12,7 @@ INCLUDEPATH += ./GeneratedFiles \
     . \
     ./GeneratedFiles/Debug \
     ./../Shared/include
+LIBS += -L../Debug/Lib -lShared
 DEPENDPATH += .
 MOC_DIR += ./GeneratedFiles/debug
 OBJECTS_DIR += debug
