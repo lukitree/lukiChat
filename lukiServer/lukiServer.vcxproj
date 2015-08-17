@@ -84,7 +84,7 @@
     </ClCompile>
     <ClCompile Include="Src\server.cpp" />
     <ClCompile Include="Src\main.cpp" />
-    <ClCompile Include="Src\User.cpp" />
+    <ClCompile Include="Src\user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Src\server.h">
@@ -99,7 +99,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Src\User.h">
+    <CustomBuild Include="Src\user.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
