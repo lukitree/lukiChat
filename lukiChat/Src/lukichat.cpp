@@ -84,15 +84,18 @@ void lukiChat::sendUserName()
 
 void lukiChat::on_actionConnect_triggered()
 {
-	QString port = connectDialog->portEdit->text();
-	QString address = connectDialog->serverEdit->text();
-	QString username = connectDialog->usernameEdit->text();
 
-	if (connectDialog->exec() && !port.isEmpty() && !address.isEmpty() && !username.isEmpty())
+	if (connectDialog->exec())
 	{
-		serverSocket->abort();
-		serverSocket->connectToHost(address, port.toInt());
-		// connect to server
+		QString port = connectDialog->portEdit->text();
+		QString address = connectDialog->serverEdit->text();
+		QString username = connectDialog->usernameEdit->text();
+
+		if (!port.isEmpty() && !address.isEmpty() && !username.isEmpty())
+		{
+			serverSocket->abort();
+			serverSocket->connectToHost(address, port.toInt());
+		}
 	}
 }
 
