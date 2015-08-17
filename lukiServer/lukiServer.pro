@@ -4,7 +4,7 @@
 
 TEMPLATE = app
 TARGET = lukiServer
-DESTDIR = ../Win32/Debug
+DESTDIR = ../Debug
 QT += core network
 CONFIG += debug console c++11
 DEFINES += QT_DLL QT_NETWORK_LIB

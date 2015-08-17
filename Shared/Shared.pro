@@ -4,7 +4,7 @@
 
 TEMPLATE = lib
 TARGET = Shared
-DESTDIR = ../Win32/Debug
+DESTDIR = ../Debug/Lib
 QT += core
 CONFIG += staticlib debug c++11
 DEFINES += QT_DLL SHARED_LIB
