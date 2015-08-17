@@ -4,6 +4,13 @@
 * text=auto
 
 ###############################################################################
+# Normalized and convert text files
+###############################################################################
+*.c
+*.cpp
+*.h
+
+###############################################################################
 # Set default behavior for command prompt diff.
 #
 # This is need for earlier builds of msysgit that does not have it on by
