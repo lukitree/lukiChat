@@ -144,7 +144,13 @@ void lukiChat::on_sendButton_clicked()
 			message.data += i + " ";
 	}
 
-	out << message;
+	// Check if user is PM themselves
+	if (message.data == "")
+		printServerMessage("[!] Error: cannot send empty PM.", "Red");
+	else if (message.extra == assignedUsername)
+		printServerMessage("[!] Error: cannot PM self.", "Red");
+	else
+		out << message;
 
 	serverSocket->write(block);
 }
