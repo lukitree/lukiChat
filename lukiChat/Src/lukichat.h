@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QTcpSocket>
+#include <QSound>
 #include "ui_lukichat.h"
 #include "connectdialog.h"
 #include "message.h"

@@ -242,6 +242,8 @@ void lukiChat::printPM(Message message)
 	else
 	{
 		item = new QListWidgetItem("From " + fromUser + ": " + message.data);
+		// Play sound when receiving a message
+		QSound::play("resources/pm.wav");
 	}
 
 	item->setForeground(Qt::magenta);
